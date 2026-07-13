@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cpb5qvpsm2gpe"]
+
+[ext_resource type="Script" uid="uid://2lhvo2fjbgw0" path="res://scripts/player_car.gd" id="1_dnlqt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4kxuq"]
+size = Vector3(2, 0.5, 4.01)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4kxuq"]
+size = Vector3(2, 0.5, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mti6b"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mti6b"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_62yky"]
+
+[sub_resource type="Sky" id="Sky_mm1bc"]
+sky_material = SubResource("PhysicalSkyMaterial_62yky")
+
+[sub_resource type="Environment" id="Environment_mti6b"]
+background_mode = 2
+sky = SubResource("Sky_mm1bc")
+
+[node name="PlayerCar" type="VehicleBody3D" unique_id=513291182]
+can_sleep = false
+script = ExtResource("1_dnlqt")
+engine_power = 2000.0
+
+[node name="FrontLeft" type="VehicleWheel3D" parent="." unique_id=50187225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, -1.5)
+
+[node name="FrontRight" type="VehicleWheel3D" parent="." unique_id=526198531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.27, 0, -1.5)
+
+[node name="RearLeft" type="VehicleWheel3D" parent="." unique_id=680541389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 1.5)
+use_as_traction = true
+
+[node name="RearRight" type="VehicleWheel3D" parent="." unique_id=205043843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 1.5)
+use_as_traction = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2052347416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_4kxuq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=390748033]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_4kxuq")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=324599498]
+transform = Transform3D(1, 0, 0, 0, 0.9452891, 0.32623398, 0, -0.32623398, 0.9452891, 0.37368655, 3.6410844, 7.4928546)
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=104556999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=148049947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 1, 200)
+shape = SubResource("BoxShape3D_mti6b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=241624477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 1, 200)
+mesh = SubResource("BoxMesh_mti6b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1795971703]
+transform = Transform3D(1, 0, 0, 0, 0.822638, 0.56856555, 0, -0.56856555, 0.822638, 0, 2.897782, 1.9097313)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1292353047]
+environment = SubResource("Environment_mti6b")
