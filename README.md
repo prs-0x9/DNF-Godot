@@ -36,3 +36,6 @@ Key technical implementations include:
 3. Open `player_car.tscn` (set as the Main Scene).
 4. Press `F5` to run the project.
 5. Use **W, A, S, D** or the **Arrow Keys** to steer and accelerate.
+
+## Development Screenshot
+<img width="1919" height="1079" alt="Screenshot 2026-09-18 151504" src="https://github.com/user-attachments/assets/44b641fb-14c5-4ed4-aaba-90f9d90a3b0d" />
