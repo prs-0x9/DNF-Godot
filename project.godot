@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="DNF-Godot"
-run/main_scene="uid://cpb5qvpsm2gpe"
+run/main_scene="uid://bv1p7dnfmain0"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+RaceManager="*res://scripts/race_manager.gd"
 
 [display]
 

@@ -1,4 +1,5 @@
 @tool
+class_name TrackGenerator
 extends Path3D
 ## Procedural track surface for DNF. Attach to a Path3D and draw the curve in
 ## the editor — a CSGPolygon3D road (with collision) is extruded along it and

@@ -1,0 +1,117 @@
+[gd_scene load_steps=18 format=3 uid="uid://bv1p7dnfmain0"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://cpb5qvpsm2gpe" path="res://player_car.tscn" id="2_car"]
+[ext_resource type="Script" uid="uid://dog602x1svmko" path="res://scripts/ghost_playback.gd" id="3_ghost"]
+[ext_resource type="Script" uid="uid://dwqdl7lftwdyt" path="res://scripts/finish_line.gd" id="4_finish"]
+[ext_resource type="Script" uid="uid://clgg36oxmabvj" path="res://scripts/track_generator.gd" id="5_track"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_sky"]
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("PhysicalSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(400, 1, 400)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.24, 0.42, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector3(400, 1, 400)
+
+[sub_resource type="Curve3D" id="Curve3D_track"]
+closed = true
+_data = {
+"points": PackedVector3Array(-22, 0, 0, 22, 0, 0, 0, 0.3, 40, 0, 0, 22, 0, 0, -22, 40, 0.3, 0, 22, 0, 0, -22, 0, 0, 0, 0.3, -40, 0, 0, -22, 0, 0, 22, -40, 0.3, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_track"]
+albedo_color = Color(0.16, 0.16, 0.18, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_finish"]
+size = Vector3(1, 4, 18)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ghost"]
+size = Vector3(1.9, 0.5, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghost"]
+transparency = 1
+albedo_color = Color(0.3, 0.9, 1, 0.45)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ghost"]
+material = SubResource("StandardMaterial3D_ghost")
+size = Vector3(1.9, 0.5, 4)
+
+[node name="Main" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.822638, 0.56856555, 0, -0.56856555, 0.822638, 0, 30, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_floor")
+
+[node name="Track" type="Path3D" parent="."]
+curve = SubResource("Curve3D_track")
+script = ExtResource("5_track")
+surface_material = SubResource("StandardMaterial3D_track")
+
+[node name="FinishLine" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 40)
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("4_finish")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinishLine"]
+shape = SubResource("BoxShape3D_finish")
+
+[node name="PlayerCar" parent="." instance=ExtResource("2_car")]
+process_mode = 1
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4, 1.2, 40)
+
+[node name="GhostCar" type="CharacterBody3D" parent="." groups=["ghost"]]
+process_mode = 1
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4, 1.2, 40)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_ghost")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GhostCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("BoxShape3D_ghost")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GhostCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_ghost")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="HUD"]
+unique_name_in_owner = true
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 1100.0
+offset_bottom = 160.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 24
